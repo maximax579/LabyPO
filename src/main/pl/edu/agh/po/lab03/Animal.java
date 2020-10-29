@@ -5,6 +5,9 @@ import pl.edu.agh.po.lab02.MoveDirection;
 import pl.edu.agh.po.lab02.Vector2d;
 
 public class Animal {
+    private static final Vector2d MAX_POSITION = new Vector2d(4, 4);
+    private static final Vector2d MIN_POSITION = new Vector2d(0, 0);
+
     private MapDirection direction;
     private Vector2d position;
 
@@ -37,7 +40,7 @@ public class Animal {
 
     private Vector2d correctMove(Vector2d move) {
         var result = this.position.add(move);
-        var isMoveCorrect = result.follows(new Vector2d(0, 0)) && result.precedes(new Vector2d(4, 4));
+        var isMoveCorrect = result.follows(MIN_POSITION) && result.precedes(MAX_POSITION);
         return isMoveCorrect ? result : this.position;
     }
 }
