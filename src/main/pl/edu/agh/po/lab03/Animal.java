@@ -3,17 +3,26 @@ package pl.edu.agh.po.lab03;
 import pl.edu.agh.po.lab02.MapDirection;
 import pl.edu.agh.po.lab02.MoveDirection;
 import pl.edu.agh.po.lab02.Vector2d;
+import pl.edu.agh.po.lab04.IWorldMap;
 
 public class Animal {
-    private static final Vector2d MAX_POSITION = new Vector2d(4, 4);
-    private static final Vector2d MIN_POSITION = new Vector2d(0, 0);
+    private static final Vector2d DEFAULT_POSITION = new Vector2d(2, 2);
 
     private MapDirection direction;
     private Vector2d position;
+    private final IWorldMap map;
 
-    public Animal() {
-        direction = MapDirection.NORTH;
-        position = new Vector2d(2, 2);
+    public Animal(IWorldMap map, Vector2d initialPosition) {
+        if (!map.canMoveTo(initialPosition))
+            throw new IllegalArgumentException("Zwierzę umieszczone poza mapą lub na zajętej pozycji");
+
+        this.direction = MapDirection.NORTH;
+        this.position = initialPosition;
+        this.map = map;
+    }
+
+    public Animal(IWorldMap map) {
+        this(map, DEFAULT_POSITION);
     }
 
     public MapDirection getDirection() {
@@ -26,7 +35,12 @@ public class Animal {
 
     @Override
     public String toString() {
-        return "Animal {orientacja=" + direction + ", pozycja=" + position + "}";
+        return switch (direction) {
+            case NORTH -> "^";
+            case EAST -> ">";
+            case SOUTH -> "ˬ";
+            case WEST -> "<";
+        };
     }
 
     public void move(MoveDirection direction) {
@@ -40,7 +54,6 @@ public class Animal {
 
     private Vector2d correctMove(Vector2d move) {
         var result = this.position.add(move);
-        var isMoveCorrect = result.follows(MIN_POSITION) && result.precedes(MAX_POSITION);
-        return isMoveCorrect ? result : this.position;
+        return map.canMoveTo(result) ? result : this.position;
     }
 }

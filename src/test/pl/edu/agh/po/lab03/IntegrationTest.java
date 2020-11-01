@@ -1,15 +1,24 @@
 package pl.edu.agh.po.lab03;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import pl.edu.agh.po.lab02.MapDirection;
 import pl.edu.agh.po.lab02.Vector2d;
+import pl.edu.agh.po.lab04.RectangularMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class IntegrationTest {
 
+    static RectangularMap map;
+
+    @BeforeAll
+    static void setup() {
+        map = new RectangularMap(5, 5);
+    }
+
     private Animal animalAfterMoves(String[] array) {
-        var animal = new Animal();
+        var animal = new Animal(map);
         var moves = OptionsParser.parse(array);
 
         for (var move : moves) {
@@ -24,11 +33,11 @@ public class IntegrationTest {
         var array = new String[] { };
         var animal = animalAfterMoves(array);
 
-        var expected_direction = MapDirection.NORTH;
-        var expected_position = new Vector2d(2, 2);
+        var expectedDirection = MapDirection.NORTH;
+        var expectedPosition = new Vector2d(2, 2);
 
-        assertEquals(expected_direction, animal.getDirection());
-        assertEquals(expected_position, animal.getPosition());
+        assertEquals(expectedDirection, animal.getDirection());
+        assertEquals(expectedPosition, animal.getPosition());
     }
 
     @Test
@@ -36,11 +45,11 @@ public class IntegrationTest {
         var array = new String[] { "l" };
         var animal = animalAfterMoves(array);
 
-        var expected_direction = MapDirection.WEST;
-        var expected_position = new Vector2d(2, 2);
+        var expectedDirection = MapDirection.WEST;
+        var expectedPosition = new Vector2d(2, 2);
 
-        assertEquals(expected_direction, animal.getDirection());
-        assertEquals(expected_position, animal.getPosition());
+        assertEquals(expectedDirection, animal.getDirection());
+        assertEquals(expectedPosition, animal.getPosition());
     }
 
     @Test
@@ -48,11 +57,11 @@ public class IntegrationTest {
         var array = new String[] { "left" };
         var animal = animalAfterMoves(array);
 
-        var expected_direction = MapDirection.WEST;
-        var expected_position = new Vector2d(2, 2);
+        var expectedDirection = MapDirection.WEST;
+        var expectedPosition = new Vector2d(2, 2);
 
-        assertEquals(expected_direction, animal.getDirection());
-        assertEquals(expected_position, animal.getPosition());
+        assertEquals(expectedDirection, animal.getDirection());
+        assertEquals(expectedPosition, animal.getPosition());
     }
 
     @Test
@@ -60,11 +69,11 @@ public class IntegrationTest {
         var array = new String[] { "r" };
         var animal = animalAfterMoves(array);
 
-        var expected_direction = MapDirection.EAST;
-        var expected_position = new Vector2d(2, 2);
+        var expectedDirection = MapDirection.EAST;
+        var expectedPosition = new Vector2d(2, 2);
 
-        assertEquals(expected_direction, animal.getDirection());
-        assertEquals(expected_position, animal.getPosition());
+        assertEquals(expectedDirection, animal.getDirection());
+        assertEquals(expectedPosition, animal.getPosition());
     }
 
     @Test
@@ -72,11 +81,11 @@ public class IntegrationTest {
         var array = new String[] { "right" };
         var animal = animalAfterMoves(array);
 
-        var expected_direction = MapDirection.EAST;
-        var expected_position = new Vector2d(2, 2);
+        var expectedDirection = MapDirection.EAST;
+        var expectedPosition = new Vector2d(2, 2);
 
-        assertEquals(expected_direction, animal.getDirection());
-        assertEquals(expected_position, animal.getPosition());
+        assertEquals(expectedDirection, animal.getDirection());
+        assertEquals(expectedPosition, animal.getPosition());
     }
 
     @Test
@@ -84,11 +93,11 @@ public class IntegrationTest {
         var array = new String[] { "f" };
         var animal = animalAfterMoves(array);
 
-        var expected_direction = MapDirection.NORTH;
-        var expected_position = new Vector2d(2, 3);
+        var expectedDirection = MapDirection.NORTH;
+        var expectedPosition = new Vector2d(2, 3);
 
-        assertEquals(expected_direction, animal.getDirection());
-        assertEquals(expected_position, animal.getPosition());
+        assertEquals(expectedDirection, animal.getDirection());
+        assertEquals(expectedPosition, animal.getPosition());
     }
 
     @Test
@@ -96,11 +105,11 @@ public class IntegrationTest {
         var array = new String[] { "forward" };
         var animal = animalAfterMoves(array);
 
-        var expected_direction = MapDirection.NORTH;
-        var expected_position = new Vector2d(2, 3);
+        var expectedDirection = MapDirection.NORTH;
+        var expectedPosition = new Vector2d(2, 3);
 
-        assertEquals(expected_direction, animal.getDirection());
-        assertEquals(expected_position, animal.getPosition());
+        assertEquals(expectedDirection, animal.getDirection());
+        assertEquals(expectedPosition, animal.getPosition());
     }
 
     @Test
@@ -108,11 +117,11 @@ public class IntegrationTest {
         var array = new String[] { "b" };
         var animal = animalAfterMoves(array);
 
-        var expected_direction = MapDirection.NORTH;
-        var expected_position = new Vector2d(2, 1);
+        var expectedDirection = MapDirection.NORTH;
+        var expectedPosition = new Vector2d(2, 1);
 
-        assertEquals(expected_direction, animal.getDirection());
-        assertEquals(expected_position, animal.getPosition());
+        assertEquals(expectedDirection, animal.getDirection());
+        assertEquals(expectedPosition, animal.getPosition());
     }
 
     @Test
@@ -120,11 +129,11 @@ public class IntegrationTest {
         var array = new String[] { "backward" };
         var animal = animalAfterMoves(array);
 
-        var expected_direction = MapDirection.NORTH;
-        var expected_position = new Vector2d(2, 1);
+        var expectedDirection = MapDirection.NORTH;
+        var expectedPosition = new Vector2d(2, 1);
 
-        assertEquals(expected_direction, animal.getDirection());
-        assertEquals(expected_position, animal.getPosition());
+        assertEquals(expectedDirection, animal.getDirection());
+        assertEquals(expectedPosition, animal.getPosition());
     }
 
     @Test
@@ -132,11 +141,11 @@ public class IntegrationTest {
         var array = new String[] { "alamakota" };
         var animal = animalAfterMoves(array);
 
-        var expected_direction = MapDirection.NORTH;
-        var expected_position = new Vector2d(2, 2);
+        var expectedDirection = MapDirection.NORTH;
+        var expectedPosition = new Vector2d(2, 2);
 
-        assertEquals(expected_direction, animal.getDirection());
-        assertEquals(expected_position, animal.getPosition());
+        assertEquals(expectedDirection, animal.getDirection());
+        assertEquals(expectedPosition, animal.getPosition());
     }
 
     @Test
@@ -144,23 +153,23 @@ public class IntegrationTest {
         var array = new String[] { "b", "f", "r", "l", "l", "b", "f" };
         var animal = animalAfterMoves(array);
 
-        var expected_direction = MapDirection.WEST;
-        var expected_position = new Vector2d(2, 2);
+        var expectedDirection = MapDirection.WEST;
+        var expectedPosition = new Vector2d(2, 2);
 
-        assertEquals(expected_direction, animal.getDirection());
-        assertEquals(expected_position, animal.getPosition());
+        assertEquals(expectedDirection, animal.getDirection());
+        assertEquals(expectedPosition, animal.getPosition());
     }
 
     @Test
-    void aArrayFullSequence() {
+    void arrayFullSequence() {
         var array = new String[] { "backward", "forward", "right", "left", "left", "backward", "forward" };
         var animal = animalAfterMoves(array);
 
-        var expected_direction = MapDirection.WEST;
-        var expected_position = new Vector2d(2, 2);
+        var expectedDirection = MapDirection.WEST;
+        var expectedPosition = new Vector2d(2, 2);
 
-        assertEquals(expected_direction, animal.getDirection());
-        assertEquals(expected_position, animal.getPosition());
+        assertEquals(expectedDirection, animal.getDirection());
+        assertEquals(expectedPosition, animal.getPosition());
     }
 
     @Test
@@ -168,11 +177,11 @@ public class IntegrationTest {
         var array = new String[] { "backward", "f", "right", "left", "l", "backward", "f" };
         var animal = animalAfterMoves(array);
 
-        var expected_direction = MapDirection.WEST;
-        var expected_position = new Vector2d(2, 2);
+        var expectedDirection = MapDirection.WEST;
+        var expectedPosition = new Vector2d(2, 2);
 
-        assertEquals(expected_direction, animal.getDirection());
-        assertEquals(expected_position, animal.getPosition());
+        assertEquals(expectedDirection, animal.getDirection());
+        assertEquals(expectedPosition, animal.getPosition());
     }
 
     @Test
@@ -180,11 +189,11 @@ public class IntegrationTest {
         var array = new String[] { ";;", "backward", "sdfsdf", "f", "alamakota", "right", "left", "l", "backward", "..", "f" };
         var animal = animalAfterMoves(array);
 
-        var expected_direction = MapDirection.WEST;
-        var expected_position = new Vector2d(2, 2);
+        var expectedDirection = MapDirection.WEST;
+        var expectedPosition = new Vector2d(2, 2);
 
-        assertEquals(expected_direction, animal.getDirection());
-        assertEquals(expected_position, animal.getPosition());
+        assertEquals(expectedDirection, animal.getDirection());
+        assertEquals(expectedPosition, animal.getPosition());
     }
 
     @Test
@@ -192,11 +201,11 @@ public class IntegrationTest {
         var array = new String[] { "f", "f", "f", "f" };
         var animal = animalAfterMoves(array);
 
-        var expected_direction = MapDirection.NORTH;
-        var expected_position = new Vector2d(2, 4);
+        var expectedDirection = MapDirection.NORTH;
+        var expectedPosition = new Vector2d(2, 4);
 
-        assertEquals(expected_direction, animal.getDirection());
-        assertEquals(expected_position, animal.getPosition());
+        assertEquals(expectedDirection, animal.getDirection());
+        assertEquals(expectedPosition, animal.getPosition());
     }
 
     @Test
@@ -204,11 +213,11 @@ public class IntegrationTest {
         var array = new String[] { "b", "b", "b", "b" };
         var animal = animalAfterMoves(array);
 
-        var expected_direction = MapDirection.NORTH;
-        var expected_position = new Vector2d(2, 0);
+        var expectedDirection = MapDirection.NORTH;
+        var expectedPosition = new Vector2d(2, 0);
 
-        assertEquals(expected_direction, animal.getDirection());
-        assertEquals(expected_position, animal.getPosition());
+        assertEquals(expectedDirection, animal.getDirection());
+        assertEquals(expectedPosition, animal.getPosition());
     }
 
     @Test
@@ -216,11 +225,11 @@ public class IntegrationTest {
         var array = new String[] { "r", "f", "f", "f", "f" };
         var animal = animalAfterMoves(array);
 
-        var expected_direction = MapDirection.EAST;
-        var expected_position = new Vector2d(4, 2);
+        var expectedDirection = MapDirection.EAST;
+        var expectedPosition = new Vector2d(4, 2);
 
-        assertEquals(expected_direction, animal.getDirection());
-        assertEquals(expected_position, animal.getPosition());
+        assertEquals(expectedDirection, animal.getDirection());
+        assertEquals(expectedPosition, animal.getPosition());
     }
 
     @Test
@@ -228,10 +237,10 @@ public class IntegrationTest {
         var array = new String[] { "l", "f", "f", "f", "f" };
         var animal = animalAfterMoves(array);
 
-        var expected_direction = MapDirection.WEST;
-        var expected_position = new Vector2d(0, 2);
+        var expectedDirection = MapDirection.WEST;
+        var expectedPosition = new Vector2d(0, 2);
 
-        assertEquals(expected_direction, animal.getDirection());
-        assertEquals(expected_position, animal.getPosition());
+        assertEquals(expectedDirection, animal.getDirection());
+        assertEquals(expectedPosition, animal.getPosition());
     }
 }
