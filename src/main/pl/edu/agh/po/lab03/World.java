@@ -15,11 +15,11 @@ public class World {
     public static void main(String[] args) {
         var directions = OptionsParser.parse(args);
         var map = new RectangularMap(10, 5);
-        map.place(new Animal(map));
-        map.place(new Animal(map,new Vector2d(3,4)));
+        new Animal(map);
+        new Animal(map,new Vector2d(3,4));
         map.run(directions);
 
-        createAnimationWindow(map.getAnimation());
+        createAnimationWindow(map.getMapAnimator().getAnimation());
     }
 
     private static void createAnimationWindow(List<String> animation) {

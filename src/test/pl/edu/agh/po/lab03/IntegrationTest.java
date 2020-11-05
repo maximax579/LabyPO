@@ -1,6 +1,5 @@
 package pl.edu.agh.po.lab03;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import pl.edu.agh.po.lab02.MapDirection;
 import pl.edu.agh.po.lab02.Vector2d;
@@ -10,21 +9,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class IntegrationTest {
 
-    static RectangularMap map;
-
-    @BeforeAll
-    static void setup() {
-        map = new RectangularMap(5, 5);
-    }
-
     private Animal animalAfterMoves(String[] array) {
+        var map = new RectangularMap(5, 5);
         var animal = new Animal(map);
-        var moves = OptionsParser.parse(array);
-
-        for (var move : moves) {
-            animal.move(move);
-        }
-
+        map.run(OptionsParser.parse(array));
         return animal;
     }
 

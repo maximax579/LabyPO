@@ -1,6 +1,5 @@
 package pl.edu.agh.po.lab03;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import pl.edu.agh.po.lab02.MapDirection;
 import pl.edu.agh.po.lab02.MoveDirection;
@@ -12,15 +11,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class AnimalTest {
     
-    static RectangularMap map;
-    
-    @BeforeAll
-    static void setup() {
-        map = new RectangularMap(5, 5);
-    }
-
     @Test
     void testGetDefaultPosition() {
+        var map = new RectangularMap(5, 5);
         var animal = new Animal(map);
         var expectedPosition = new Vector2d(2, 2);
         assertEquals(expectedPosition, animal.getPosition());
@@ -28,6 +21,7 @@ class AnimalTest {
 
     @Test
     void testGetCustomPosition() {
+        var map = new RectangularMap(5, 5);
         var animal = new Animal(map, new Vector2d(1, 1));
         var expectedPosition = new Vector2d(1, 1);
         assertEquals(expectedPosition, animal.getPosition());
@@ -35,12 +29,14 @@ class AnimalTest {
 
     @Test
     void testIllegalPosition() {
+        var map = new RectangularMap(5, 5);
         var illegal_position = new Vector2d(5, 5);
         assertThrows(IllegalArgumentException.class, () -> new Animal(map, illegal_position));
     }
 
     @Test
     void testGetDirection() {
+        var map = new RectangularMap(5, 5);
         var animal = new Animal(map);
         var expectedDirection = MapDirection.NORTH;
         assertEquals(expectedDirection, animal.getDirection());
@@ -48,6 +44,7 @@ class AnimalTest {
 
     @Test
     void testToStringNorth() {
+        var map = new RectangularMap(5, 5);
         var animal = new Animal(map);
         var expected = "^";
         assertEquals(expected, animal.toString());
@@ -55,6 +52,7 @@ class AnimalTest {
 
     @Test
     void testToStringEast() {
+        var map = new RectangularMap(5, 5);
         var animal = new Animal(map);
         animal.move(MoveDirection.RIGHT);
 
@@ -64,6 +62,7 @@ class AnimalTest {
 
     @Test
     void testToStringSouth() {
+        var map = new RectangularMap(5, 5);
         var animal = new Animal(map);
         animal.move(MoveDirection.RIGHT);
         animal.move(MoveDirection.RIGHT);
@@ -74,6 +73,7 @@ class AnimalTest {
 
     @Test
     void testToStringWest() {
+        var map = new RectangularMap(5, 5);
         var animal = new Animal(map);
         animal.move(MoveDirection.LEFT);
 
@@ -83,6 +83,7 @@ class AnimalTest {
 
     @Test
     void testToStringAfterMoves() {
+        var map = new RectangularMap(5, 5);
         var animal = new Animal(map);
         animal.move(MoveDirection.RIGHT);
         animal.move(MoveDirection.BACKWARD);
@@ -95,6 +96,7 @@ class AnimalTest {
 
     @Test
     void defaultPosition() {
+        var map = new RectangularMap(5, 5);
         var animal = new Animal(map);
 
         var expectedDirection = MapDirection.NORTH;
@@ -106,6 +108,7 @@ class AnimalTest {
 
     @Test
     void testRightRotate() {
+        var map = new RectangularMap(5, 5);
         var animal = new Animal(map);
         animal.move(MoveDirection.RIGHT);
 
@@ -118,6 +121,7 @@ class AnimalTest {
 
     @Test
     void testLeftRotate() {
+        var map = new RectangularMap(5, 5);
         var animal = new Animal(map);
         animal.move(MoveDirection.LEFT);
 
@@ -130,6 +134,7 @@ class AnimalTest {
 
     @Test
     void testForward() {
+        var map = new RectangularMap(5, 5);
         var animal = new Animal(map);
         animal.move(MoveDirection.FORWARD);
 
@@ -142,6 +147,7 @@ class AnimalTest {
 
     @Test
     void testBackward() {
+        var map = new RectangularMap(5, 5);
         var animal = new Animal(map);
         animal.move(MoveDirection.BACKWARD);
 
@@ -154,6 +160,7 @@ class AnimalTest {
 
     @Test
     void testMultipleRotate() {
+        var map = new RectangularMap(5, 5);
         var animal = new Animal(map);
         animal.move(MoveDirection.RIGHT);
         animal.move(MoveDirection.LEFT);
@@ -169,6 +176,7 @@ class AnimalTest {
 
     @Test
     void testMultipleMove() {
+        var map = new RectangularMap(5, 5);
         var animal = new Animal(map);
         animal.move(MoveDirection.FORWARD);
         animal.move(MoveDirection.BACKWARD);
@@ -184,6 +192,7 @@ class AnimalTest {
 
     @Test
     void testMixed() {
+        var map = new RectangularMap(5, 5);
         var animal = new Animal(map);
         animal.move(MoveDirection.FORWARD);
         animal.move(MoveDirection.RIGHT);
@@ -201,6 +210,7 @@ class AnimalTest {
 
     @Test
     void testIllegalMovesNorth() {
+        var map = new RectangularMap(5, 5);
         var animal = new Animal(map);
         animal.move(MoveDirection.FORWARD);
         animal.move(MoveDirection.FORWARD);
@@ -216,6 +226,7 @@ class AnimalTest {
 
     @Test
     void testIllegalMovesEast() {
+        var map = new RectangularMap(5, 5);
         var animal = new Animal(map);
         animal.move(MoveDirection.RIGHT);
         animal.move(MoveDirection.FORWARD);
@@ -232,6 +243,7 @@ class AnimalTest {
 
     @Test
     void testIllegalMovesSouth() {
+        var map = new RectangularMap(5, 5);
         var animal = new Animal(map);
         animal.move(MoveDirection.BACKWARD);
         animal.move(MoveDirection.BACKWARD);
@@ -247,6 +259,7 @@ class AnimalTest {
 
     @Test
     void testIllegalMovesWest() {
+        var map = new RectangularMap(5, 5);
         var animal = new Animal(map);
         animal.move(MoveDirection.LEFT);
         animal.move(MoveDirection.FORWARD);

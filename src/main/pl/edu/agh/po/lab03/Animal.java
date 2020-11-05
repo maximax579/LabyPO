@@ -19,6 +19,7 @@ public class Animal {
         this.direction = MapDirection.NORTH;
         this.position = initialPosition;
         this.map = map;
+        this.map.place(this);
     }
 
     public Animal(IWorldMap map) {

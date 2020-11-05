@@ -26,8 +26,6 @@ public class IntegrationTest {
         var directions = OptionsParser.parse(new String[] { });
         var map = new RectangularMap(10, 5);
         var animal = new Animal(map);
-
-        map.place(animal);
         map.run(directions);
 
         var animalExpectedPosition = new Vector2d(2, 2);
@@ -44,9 +42,6 @@ public class IntegrationTest {
         var map = new RectangularMap(10, 5);
         var animal1 = new Animal(map);
         var animal2 = new Animal(map, new Vector2d(3, 4));
-
-        map.place(animal1);
-        map.place(animal2);
         map.run(directions);
 
         var animal1ExpectedPosition = new Vector2d(2, 2);
@@ -82,8 +77,6 @@ public class IntegrationTest {
 
         var map = new RectangularMap(10, 5);
         var animal = new Animal(map);
-
-        map.place(animal);
         map.run(directions);
 
         var animalExpectedPosition = new Vector2d(2, 4);
@@ -102,9 +95,6 @@ public class IntegrationTest {
         var map = new RectangularMap(10, 5);
         var animal1 = new Animal(map);
         var animal2 = new Animal(map, new Vector2d(3, 4));
-
-        map.place(animal1);
-        map.place(animal2);
         map.run(directions);
 
         var animal1ExpectedPosition = new Vector2d(2, 0);
@@ -125,7 +115,6 @@ public class IntegrationTest {
         var directions = OptionsParser.parse(new String[] { "l" });
         var map = new RectangularMap(10, 5);
         var animal = new Animal(map);
-        map.place(animal);
         map.run(directions);
 
         var expectedDirection = MapDirection.WEST;
@@ -140,7 +129,6 @@ public class IntegrationTest {
         var directions = OptionsParser.parse(new String[] { "left" });
         var map = new RectangularMap(10, 5);
         var animal = new Animal(map);
-        map.place(animal);
         map.run(directions);
 
         var expectedDirection = MapDirection.WEST;
@@ -155,7 +143,6 @@ public class IntegrationTest {
         var directions = OptionsParser.parse(new String[] { "r" });
         var map = new RectangularMap(10, 5);
         var animal = new Animal(map);
-        map.place(animal);
         map.run(directions);
 
         var expectedDirection = MapDirection.EAST;
@@ -170,7 +157,6 @@ public class IntegrationTest {
         var directions = OptionsParser.parse(new String[] { "right" });
         var map = new RectangularMap(10, 5);
         var animal = new Animal(map);
-        map.place(animal);
         map.run(directions);
 
         var expectedDirection = MapDirection.EAST;
@@ -185,7 +171,6 @@ public class IntegrationTest {
         var directions = OptionsParser.parse(new String[] { "f" });
         var map = new RectangularMap(10, 5);
         var animal = new Animal(map);
-        map.place(animal);
         map.run(directions);
 
         var expectedDirection = MapDirection.NORTH;
@@ -200,7 +185,6 @@ public class IntegrationTest {
         var directions = OptionsParser.parse(new String[] { "forward" });
         var map = new RectangularMap(10, 5);
         var animal = new Animal(map);
-        map.place(animal);
         map.run(directions);
 
         var expectedDirection = MapDirection.NORTH;
@@ -215,7 +199,6 @@ public class IntegrationTest {
         var directions = OptionsParser.parse(new String[] { "b" });
         var map = new RectangularMap(10, 5);
         var animal = new Animal(map);
-        map.place(animal);
         map.run(directions);
 
         var expectedDirection = MapDirection.NORTH;
@@ -230,7 +213,6 @@ public class IntegrationTest {
         var directions = OptionsParser.parse(new String[] { "backward" });
         var map = new RectangularMap(10, 5);
         var animal = new Animal(map);
-        map.place(animal);
         map.run(directions);
 
         var expectedDirection = MapDirection.NORTH;
@@ -245,7 +227,6 @@ public class IntegrationTest {
         var directions = OptionsParser.parse(new String[] { "alamakota" });
         var map = new RectangularMap(10, 5);
         var animal = new Animal(map);
-        map.place(animal);
         map.run(directions);
 
         var expectedDirection = MapDirection.NORTH;
@@ -260,7 +241,6 @@ public class IntegrationTest {
         var directions = OptionsParser.parse(new String[] { "f", "f", "f" });
         var map = new RectangularMap(4, 4);
         var animal = new Animal(map);
-        map.place(animal);
         map.run(directions);
 
         var expectedDirection = MapDirection.NORTH;
@@ -275,7 +255,6 @@ public class IntegrationTest {
         var directions = OptionsParser.parse(new String[] { "r", "f", "f", "f" });
         var map = new RectangularMap(4, 4);
         var animal = new Animal(map);
-        map.place(animal);
         map.run(directions);
 
         var expectedDirection = MapDirection.EAST;
@@ -290,7 +269,6 @@ public class IntegrationTest {
         var directions = OptionsParser.parse(new String[] { "b", "b", "b", "b" });
         var map = new RectangularMap(4, 4);
         var animal = new Animal(map);
-        map.place(animal);
         map.run(directions);
 
         var expectedDirection = MapDirection.NORTH;
@@ -305,7 +283,6 @@ public class IntegrationTest {
         var directions = OptionsParser.parse(new String[] { "l", "f", "f", "f", "f" });
         var map = new RectangularMap(4, 4);
         var animal = new Animal(map);
-        map.place(animal);
         map.run(directions);
 
         var expectedDirection = MapDirection.WEST;
@@ -340,9 +317,7 @@ public class IntegrationTest {
                 new String[] { "f", "b", "r", "r", "f", "f", "f" }
         );
         var map = new RectangularMap(10, 5);
-        var animal = new Animal(map);
-
-        map.place(animal);
+        new Animal(map);
         map.run(directions);
 
         var expected = " y\\x  0 1 2 3 4 5 6 7 8 9" + System.lineSeparator() +
@@ -362,11 +337,8 @@ public class IntegrationTest {
                 new String[] { "f", "b", "r", "l", "f", "f", "r", "r", "f", "f", "f", "f", "f", "f", "f", "f" }
         );
         var map = new RectangularMap(10, 5);
-        var animal1 = new Animal(map);
-        var animal2 = new Animal(map, new Vector2d(3, 4));
-
-        map.place(animal1);
-        map.place(animal2);
+        new Animal(map);
+        new Animal(map, new Vector2d(3, 4));
         map.run(directions);
 
         var expected = " y\\x  0 1 2 3 4 5 6 7 8 9" + System.lineSeparator() +

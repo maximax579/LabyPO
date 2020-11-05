@@ -28,8 +28,8 @@ public class RectangularMap implements IWorldMap {
 
     private final Animal[][] map;
     private final MapVisualiser mapVisualiser;
+    private final MapAnimator mapAnimator;
     private final List<Animal> animals;
-    private final List<String> animation;
 
     public RectangularMap(int width, int height) {
         if (width < 0 || height < 0)
@@ -42,8 +42,8 @@ public class RectangularMap implements IWorldMap {
         mapVisualiser = new MapVisualiser(this);
         map = new Animal[width][height];
 
-        animation = new LinkedList<>();
-        animation.add(this.toString());
+        mapAnimator = new MapAnimator();
+        mapAnimator.addFrame(this);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class RectangularMap implements IWorldMap {
 
         placeAnimalOnMap(animal);
         animals.add(animal);
-        animation.add(this.toString());
+        mapAnimator.addFrame(this);
         return true;
     }
 
@@ -72,11 +72,8 @@ public class RectangularMap implements IWorldMap {
             if (!iterator.hasNext())
                 iterator = animals.iterator();
 
-            var animal = iterator.next();
-            removeAnimalFromMap(animal);
-            animal.move(direction);
-            placeAnimalOnMap(animal);
-            animation.add(this.toString());
+            moveAnimal(iterator.next(), direction);
+            mapAnimator.addFrame(this);
         }
     }
 
@@ -95,12 +92,21 @@ public class RectangularMap implements IWorldMap {
         return mapVisualiser.draw(lowerLeft, upperRight);
     }
 
-    public List<String> getAnimation() {
-        return animation;
+    public MapAnimator getMapAnimator() {
+        return mapAnimator;
     }
 
     private Animal getCell(Vector2d position) {
+        if (!(position.follows(lowerLeft) && position.precedes(upperRight)))
+            return null;
+
         return map[position.x][position.y];
+    }
+
+    private void moveAnimal(Animal animal, MoveDirection direction) {
+        removeAnimalFromMap(animal);
+        animal.move(direction);
+        placeAnimalOnMap(animal);
     }
 
     private void placeAnimalOnMap(Animal animal) {

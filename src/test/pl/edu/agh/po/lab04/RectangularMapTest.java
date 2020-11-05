@@ -46,25 +46,20 @@ class RectangularMapTest {
     @Test
     void canMoveToOccupiedCell() {
         var map = new RectangularMap(4, 4);
-        var animal = new Animal(map);
-        map.place(animal);
-
+        new Animal(map);
         assertFalse(map.canMoveTo(new Vector2d(2, 2)));
     }
 
     @Test
     void placeCorrectAnimal() {
         var map = new RectangularMap(4, 4);
-        var animal = new Animal(map);
-
-        assertTrue(map.place(animal));
+        assertDoesNotThrow(() -> new Animal(map));
     }
 
     @Test
     void placeTwoAnimalsInOneCell() {
         var map = new RectangularMap(4, 4);
-        var animal = new Animal(map);
-        assertTrue(map.place(animal));
+        new Animal(map);
         assertThrows(IllegalArgumentException.class, () -> new Animal(map));
     }
 
@@ -102,8 +97,6 @@ class RectangularMapTest {
 
         IWorldMap map = new RectangularMap(4, 4);
         var animal = new Animal(map, new Vector2d(2, 1));
-
-        map.place(animal);
         map.run(directions);
 
         var animalExpectedPosition = new Vector2d(2, 3);
@@ -135,9 +128,6 @@ class RectangularMapTest {
         IWorldMap map = new RectangularMap(4, 4);
         var animal1 = new Animal(map, new Vector2d(2, 1));
         var animal2 = new Animal(map, new Vector2d(3, 3));
-
-        map.place(animal1);
-        map.place(animal2);
         map.run(directions);
 
         var animal1ExpectedPosition = new Vector2d(2, 0);
@@ -160,11 +150,15 @@ class RectangularMapTest {
     }
 
     @Test
+    void isOccupiedOutOfIndex() {
+        var map = new RectangularMap(4, 4);
+        assertFalse(map.isOccupied(new Vector2d(5, 2)));
+    }
+
+    @Test
     void isOccupiedTrue() {
         var map = new RectangularMap(4, 4);
-        var animal = new Animal(map);
-        map.place(animal);
-
+        new Animal(map);
         assertTrue(map.isOccupied(new Vector2d(2, 2)));
     }
 
@@ -175,11 +169,15 @@ class RectangularMapTest {
     }
 
     @Test
+    void objectAtOutOfIndex() {
+        var map = new RectangularMap(4, 4);
+        assertEquals(Optional.empty(), map.objectAt(new Vector2d(4, 2)));
+    }
+
+    @Test
     void objectAtOccupied() {
         var map = new RectangularMap(4, 4);
         var animal = new Animal(map);
-        map.place(animal);
-
         assertEquals(animal, map.objectAt(new Vector2d(2, 2)).orElseThrow());
     }
 
@@ -200,8 +198,7 @@ class RectangularMapTest {
     @Test
     void testToStringWithOneAnimal() {
         var map = new RectangularMap(4, 4);
-        var animal = new Animal(map);
-        map.place(animal);
+        new Animal(map);
 
         var expected = " y\\x  0 1 2 3" + System.lineSeparator() +
                 "  4: ---------" + System.lineSeparator() +
@@ -216,10 +213,8 @@ class RectangularMapTest {
     @Test
     void testToStringWithTwoAnimals() {
         var map = new RectangularMap(4, 4);
-        var animal1 = new Animal(map);
-        var animal2 = new Animal(map, new Vector2d(3, 3));
-        map.place(animal1);
-        map.place(animal2);
+        new Animal(map);
+        new Animal(map, new Vector2d(3, 3));
 
         var expected = " y\\x  0 1 2 3" + System.lineSeparator() +
                 "  4: ---------" + System.lineSeparator() +
@@ -240,8 +235,7 @@ class RectangularMapTest {
                 MoveDirection.LEFT
         );
         var map = new RectangularMap(4, 4);
-        var animal = new Animal(map);
-        map.place(animal);
+        new Animal(map);
         map.run(directions);
 
         var expected = new LinkedList<String>();
@@ -288,7 +282,7 @@ class RectangularMapTest {
                 "  0: | | | | |" + System.lineSeparator() +
                 " -1: ---------" + System.lineSeparator());
 
-        assertEquals(expected, map.getAnimation());
+        assertEquals(expected, map.getMapAnimator().getAnimation());
     }
 
 }
