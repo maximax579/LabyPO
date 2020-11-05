@@ -4,8 +4,9 @@ import pl.edu.agh.po.lab02.MapDirection;
 import pl.edu.agh.po.lab02.MoveDirection;
 import pl.edu.agh.po.lab02.Vector2d;
 import pl.edu.agh.po.lab04.IWorldMap;
+import pl.edu.agh.po.lab05.IMapElement;
 
-public class Animal {
+public class Animal implements IMapElement {
     private static final Vector2d DEFAULT_POSITION = new Vector2d(2, 2);
 
     private MapDirection direction;
