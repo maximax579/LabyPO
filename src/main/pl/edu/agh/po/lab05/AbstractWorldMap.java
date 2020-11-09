@@ -7,29 +7,26 @@ import pl.edu.agh.po.lab04.IWorldMap;
 import pl.edu.agh.po.lab04.MapAnimator;
 import pl.edu.agh.po.lab04.MapVisualiser;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public abstract class AbstractWorldMap implements IWorldMap {
 
-    protected List<Animal> animals;
+    private final List<IMapElement> elements;
+    private final HashMap<Vector2d, List<IMapElement>> map;
 
-    protected MapAnimator mapAnimator;
-    protected MapVisualiser mapVisualiser;
+    private final  MapVisualiser mapVisualiser;
+    protected  MapAnimator mapAnimator;
 
     protected Vector2d lowerLeft;
     protected Vector2d upperRight;
 
     public AbstractWorldMap() {
-        this.animals = new LinkedList<>();
+        this.elements = new LinkedList<>();
         this.mapVisualiser = new MapVisualiser(this);
         this.mapAnimator = new MapAnimator();
+        this.map = new HashMap<>();
     }
-
-    protected abstract void addElementToMap(IMapElement element);
-
-    protected abstract void moveAnimal(Animal animal, MoveDirection direction);
 
     @Override
     public boolean place(Animal animal) {
@@ -41,8 +38,23 @@ public abstract class AbstractWorldMap implements IWorldMap {
         return true;
     }
 
+    protected void addElementToMap(IMapElement element) {
+        var elementsAtPosition = getElementsAtPosition(element.getPosition());
+        elementsAtPosition.add(element);
+        elements.add(element);
+    }
+
+    private List<IMapElement> getElementsAtPosition(Vector2d position) {
+        return map.computeIfAbsent(position, k -> new LinkedList<>());
+    }
+
     @Override
     public void run(List<MoveDirection> directions) {
+        var animals = elements.stream()
+                .filter(el -> el instanceof Animal)
+                .map(el -> (Animal) el)
+                .collect(Collectors.toList());
+
         var iterator = animals.iterator();
         if (!iterator.hasNext())
             return;
@@ -51,15 +63,40 @@ public abstract class AbstractWorldMap implements IWorldMap {
             if (!iterator.hasNext())
                 iterator = animals.iterator();
 
-            var animal = iterator.next();
-            moveAnimal(animal, direction);
+            moveAnimal(iterator.next(), direction);
             mapAnimator.addFrame(this);
         }
+    }
+
+    protected void moveAnimal(Animal animal, MoveDirection direction) {
+        getElementsAtPosition(animal.getPosition()).remove(animal);
+        animal.move(direction);
+        getElementsAtPosition(animal.getPosition()).add(animal);
     }
 
     @Override
     public boolean isOccupied(Vector2d position) {
         return objectAt(position).isPresent();
+    }
+
+    @Override
+    public Optional<Object> objectAt(Vector2d position) {
+        var elementsAtPosition = getElementsAtPosition(position);
+        Object objectAt = null;
+
+        for (var element : elementsAtPosition) {
+            if (element instanceof Animal)
+                return Optional.of(element);
+            else
+                objectAt = element;
+        }
+
+        return Optional.ofNullable(objectAt);
+    }
+
+    @Override
+    public boolean canMoveTo(Vector2d position) {
+        return !(objectAt(position).orElse(null) instanceof Animal);
     }
 
     @Override

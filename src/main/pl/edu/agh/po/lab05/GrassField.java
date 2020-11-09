@@ -5,19 +5,14 @@ import pl.edu.agh.po.lab02.Vector2d;
 import pl.edu.agh.po.lab03.Animal;
 import pl.edu.agh.po.lab04.IWorldMap;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 
 public class GrassField extends AbstractWorldMap implements IWorldMap {
 
     private final int numberOfGrasses;
-    private final List<Grass> grasses;
 
     public GrassField(int numberOfGrasses) {
         this.numberOfGrasses = numberOfGrasses;
-        this.grasses = new LinkedList<>();
 
         this.lowerLeft = new Vector2d(0, 0);
         this.upperRight = new Vector2d(0, 0);
@@ -41,18 +36,13 @@ public class GrassField extends AbstractWorldMap implements IWorldMap {
 
     @Override
     protected void addElementToMap(IMapElement element) {
-        var position = element.getPosition();
-        changeCorners(position);
-
-        if (element instanceof Grass grass)
-            grasses.add(grass);
-        else if (element instanceof Animal animal)
-            animals.add(animal);
+        super.addElementToMap(element);
+        changeCorners(element.getPosition());
     }
 
     @Override
     protected void moveAnimal(Animal animal, MoveDirection direction) {
-        animal.move(direction);
+        super.moveAnimal(animal, direction);
         changeCorners(animal.getPosition());
     }
 
@@ -62,30 +52,5 @@ public class GrassField extends AbstractWorldMap implements IWorldMap {
 
         if (position.lowerLeft(lowerLeft).precedes(lowerLeft))
             lowerLeft = position.lowerLeft(lowerLeft);
-    }
-
-    @Override
-    public boolean canMoveTo(Vector2d position) {
-        for (var animal : animals) {
-            if (animal.getPosition().equals(position))
-                return false;
-        }
-
-        return true;
-    }
-
-    @Override
-    public Optional<Object> objectAt(Vector2d position) {
-        for (var animal : animals) {
-            if (animal.getPosition().equals(position))
-                return Optional.of(animal);
-        }
-
-        for (var grass : grasses) {
-            if (grass.getPosition().equals(position))
-                return Optional.of(grass);
-        }
-
-        return Optional.empty();
     }
 }
