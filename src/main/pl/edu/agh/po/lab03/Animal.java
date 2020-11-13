@@ -4,9 +4,9 @@ import pl.edu.agh.po.lab02.MapDirection;
 import pl.edu.agh.po.lab02.MoveDirection;
 import pl.edu.agh.po.lab02.Vector2d;
 import pl.edu.agh.po.lab04.IWorldMap;
-import pl.edu.agh.po.lab05.IMapElement;
+import pl.edu.agh.po.lab05.IMovableElement;
 
-public class Animal implements IMapElement {
+public class Animal implements IMovableElement {
     private static final Vector2d DEFAULT_POSITION = new Vector2d(2, 2);
 
     private MapDirection direction;
@@ -15,7 +15,7 @@ public class Animal implements IMapElement {
 
     public Animal(IWorldMap map, Vector2d initialPosition) {
         if (!map.canMoveTo(initialPosition))
-            throw new IllegalArgumentException("Zwierzę umieszczone poza mapą lub na zajętej pozycji");
+            throw new IllegalArgumentException("Cannot place animal on position " + initialPosition);
 
         this.direction = MapDirection.NORTH;
         this.position = initialPosition;
@@ -45,6 +45,7 @@ public class Animal implements IMapElement {
         };
     }
 
+    @Override
     public void move(MoveDirection direction) {
         switch (direction) {
             case RIGHT -> this.direction = this.direction.next();
@@ -57,5 +58,15 @@ public class Animal implements IMapElement {
     private Vector2d correctMove(Vector2d move) {
         var result = this.position.add(move);
         return map.canMoveTo(result) ? result : this.position;
+    }
+
+    @Override
+    public boolean isBlocking() {
+        return true;
+    }
+
+    @Override
+    public int priority() {
+        return 0;
     }
 }

@@ -2,7 +2,6 @@ package pl.edu.agh.po.lab05;
 
 import pl.edu.agh.po.lab02.MoveDirection;
 import pl.edu.agh.po.lab02.Vector2d;
-import pl.edu.agh.po.lab03.Animal;
 import pl.edu.agh.po.lab04.IWorldMap;
 
 import java.util.Random;
@@ -41,9 +40,9 @@ public class GrassField extends AbstractWorldMap implements IWorldMap {
     }
 
     @Override
-    protected void moveAnimal(Animal animal, MoveDirection direction) {
-        super.moveAnimal(animal, direction);
-        changeCorners(animal.getPosition());
+    protected void moveElement(IMovableElement element, MoveDirection direction) {
+        super.moveElement(element, direction);
+        changeCorners(element.getPosition());
     }
 
     protected void changeCorners(Vector2d position) {

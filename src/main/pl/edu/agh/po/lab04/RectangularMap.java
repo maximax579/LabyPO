@@ -7,7 +7,7 @@ public class RectangularMap extends AbstractWorldMap implements IWorldMap {
 
     public RectangularMap(int width, int height) {
         if (width < 0 || height < 0)
-            throw new IllegalArgumentException("Szerokość i wysokość mapy nie może być ujemna");
+            throw new IllegalArgumentException("Width and height of map cannot be negative");
 
         lowerLeft = new Vector2d(0, 0);
         upperRight = new Vector2d(width - 1, height - 1);

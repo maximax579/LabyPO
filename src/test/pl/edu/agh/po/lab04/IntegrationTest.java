@@ -9,6 +9,7 @@ import pl.edu.agh.po.lab03.OptionsParser;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class IntegrationTest {
     
@@ -224,16 +225,7 @@ public class IntegrationTest {
 
     @Test
     void randomText() {
-        var directions = OptionsParser.parse(new String[] { "alamakota" });
-        var map = new RectangularMap(10, 5);
-        var animal = new Animal(map);
-        map.run(directions);
-
-        var expectedDirection = MapDirection.NORTH;
-        var expectedPosition = new Vector2d(2, 2);
-
-        assertEquals(expectedDirection, animal.getDirection());
-        assertEquals(expectedPosition, animal.getPosition());
+        assertThrows(IllegalArgumentException.class, () -> OptionsParser.parse(new String[] { "alamakota" }));
     }
 
     @Test
@@ -290,6 +282,13 @@ public class IntegrationTest {
 
         assertEquals(expectedDirection, animal.getDirection());
         assertEquals(expectedPosition, animal.getPosition());
+    }
+
+    @Test
+    void twoAnimalsOnOnePosition() {
+        var map = new RectangularMap(5, 5);
+        new Animal(map);
+        assertThrows(IllegalArgumentException.class, () -> new Animal(map));
     }
 
     @Test

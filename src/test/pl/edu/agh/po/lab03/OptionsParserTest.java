@@ -6,6 +6,7 @@ import pl.edu.agh.po.lab02.MoveDirection;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class OptionsParserTest {
 
@@ -74,9 +75,7 @@ class OptionsParserTest {
 
     @Test
     void parseRandom() {
-        var array = new String[] { "alamakota" };
-        var expected = List.of();
-        assertEquals(expected, OptionsParser.parse(array));
+        assertThrows(IllegalArgumentException.class, () -> OptionsParser.parse(new String[] { "alamakota" }));
     }
 
     @Test
@@ -127,15 +126,6 @@ class OptionsParserTest {
     @Test
     void parseArrayWithRandomSequence() {
         var array = new String[] { ";;", "backward", "sdfsdf", "f", "alamakota", "right", "left", "l", "backward", "..", "f" };
-        var expected = List.of(
-                MoveDirection.BACKWARD,
-                MoveDirection.FORWARD,
-                MoveDirection.RIGHT,
-                MoveDirection.LEFT,
-                MoveDirection.LEFT,
-                MoveDirection.BACKWARD,
-                MoveDirection.FORWARD
-        );
-        assertEquals(expected, OptionsParser.parse(array));
+        assertThrows(IllegalArgumentException.class, () -> OptionsParser.parse(array));
     }
 }

@@ -14,11 +14,18 @@ public class World {
     public static final int ANIMATION_DELAY = 1000;
 
     public static void main(String[] args) {
-        var directions = OptionsParser.parse(args);
-        var map = new GrassField(10);
-        new Animal(map);
-        new Animal(map,new Vector2d(3,4));
-        map.run(directions);
+        GrassField map = null;
+
+        try {
+            var directions = OptionsParser.parse(args);
+            map = new GrassField(10);
+            new Animal(map);
+            new Animal(map,new Vector2d(3,4));
+            map.run(directions);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            System.exit(1);
+        }
 
         createAnimationWindow(map.getMapAnimator().getAnimation());
     }

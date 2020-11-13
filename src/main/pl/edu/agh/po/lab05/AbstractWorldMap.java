@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public abstract class AbstractWorldMap implements IWorldMap {
 
     private final List<IMapElement> elements;
-    private final HashMap<Vector2d, List<IMapElement>> map;
+    private final Map<Vector2d, List<IMapElement>> map;
 
     private final  MapVisualiser mapVisualiser;
     protected  MapAnimator mapAnimator;
@@ -31,7 +31,7 @@ public abstract class AbstractWorldMap implements IWorldMap {
     @Override
     public boolean place(Animal animal) {
         if (!canMoveTo(animal.getPosition()))
-            return false;
+            throw new IllegalArgumentException("Cannot place animal on position " + animal.getPosition());
 
         addElementToMap(animal);
         mapAnimator.addFrame(this);
@@ -50,28 +50,28 @@ public abstract class AbstractWorldMap implements IWorldMap {
 
     @Override
     public void run(List<MoveDirection> directions) {
-        var animals = elements.stream()
-                .filter(el -> el instanceof Animal)
-                .map(el -> (Animal) el)
+        var movableElements = elements.stream()
+                .filter(IMapElement::isMovable)
+                .map(el -> (IMovableElement) el)
                 .collect(Collectors.toList());
 
-        var iterator = animals.iterator();
+        var iterator = movableElements.iterator();
         if (!iterator.hasNext())
             return;
 
         for (var direction : directions) {
             if (!iterator.hasNext())
-                iterator = animals.iterator();
+                iterator = movableElements.iterator();
 
-            moveAnimal(iterator.next(), direction);
+            moveElement(iterator.next(), direction);
             mapAnimator.addFrame(this);
         }
     }
 
-    protected void moveAnimal(Animal animal, MoveDirection direction) {
-        getElementsAtPosition(animal.getPosition()).remove(animal);
-        animal.move(direction);
-        getElementsAtPosition(animal.getPosition()).add(animal);
+    protected void moveElement(IMovableElement element, MoveDirection direction) {
+        getElementsAtPosition(element.getPosition()).remove(element);
+        element.move(direction);
+        getElementsAtPosition(element.getPosition()).add(element);
     }
 
     @Override
@@ -82,21 +82,20 @@ public abstract class AbstractWorldMap implements IWorldMap {
     @Override
     public Optional<Object> objectAt(Vector2d position) {
         var elementsAtPosition = getElementsAtPosition(position);
-        Object objectAt = null;
 
-        for (var element : elementsAtPosition) {
-            if (element instanceof Animal)
-                return Optional.of(element);
-            else
-                objectAt = element;
+        if (elementsAtPosition.isEmpty()) {
+            return Optional.empty();
         }
-
-        return Optional.ofNullable(objectAt);
+        else {
+            elementsAtPosition.sort(Comparator.comparing(IMapElement::priority));
+            return Optional.ofNullable(elementsAtPosition.get(0));
+        }
     }
 
     @Override
     public boolean canMoveTo(Vector2d position) {
-        return !(objectAt(position).orElse(null) instanceof Animal);
+        var object = objectAt(position);
+        return object.isEmpty() || !((IMapElement) object.get()).isBlocking();
     }
 
     @Override

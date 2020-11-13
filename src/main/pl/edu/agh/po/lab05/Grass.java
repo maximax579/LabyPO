@@ -17,4 +17,14 @@ public class Grass implements IMapElement {
     public String toString() {
         return "*";
     }
+
+    @Override
+    public boolean isBlocking() {
+        return false;
+    }
+
+    @Override
+    public int priority() {
+        return 1;
+    }
 }

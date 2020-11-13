@@ -6,8 +6,7 @@ import pl.edu.agh.po.lab02.Vector2d;
 import pl.edu.agh.po.lab03.Animal;
 import pl.edu.agh.po.lab03.OptionsParser;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class IntegrationTest {
     
@@ -225,15 +224,6 @@ public class IntegrationTest {
 
     @Test
     void randomText() {
-        var directions = OptionsParser.parse(new String[] { "alamakota" });
-        var map = new GrassField(10);
-        var animal = new Animal(map);
-        map.run(directions);
-
-        var expectedDirection = MapDirection.NORTH;
-        var expectedPosition = new Vector2d(2, 2);
-
-        assertEquals(expectedDirection, animal.getDirection());
-        assertEquals(expectedPosition, animal.getPosition());
+        assertThrows(IllegalArgumentException.class, () -> OptionsParser.parse(new String[] { "alamakota" }));
     }
 }

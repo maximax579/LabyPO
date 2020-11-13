@@ -6,6 +6,7 @@ import pl.edu.agh.po.lab02.Vector2d;
 import pl.edu.agh.po.lab04.RectangularMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class IntegrationTest {
 
@@ -126,14 +127,7 @@ public class IntegrationTest {
 
     @Test
     void randomText() {
-        var array = new String[] { "alamakota" };
-        var animal = animalAfterMoves(array);
-
-        var expectedDirection = MapDirection.NORTH;
-        var expectedPosition = new Vector2d(2, 2);
-
-        assertEquals(expectedDirection, animal.getDirection());
-        assertEquals(expectedPosition, animal.getPosition());
+        assertThrows(IllegalArgumentException.class, () -> OptionsParser.parse(new String[] { "alamakota" }));
     }
 
     @Test
@@ -175,13 +169,7 @@ public class IntegrationTest {
     @Test
     void arrayWithRandomSequence() {
         var array = new String[] { ";;", "backward", "sdfsdf", "f", "alamakota", "right", "left", "l", "backward", "..", "f" };
-        var animal = animalAfterMoves(array);
-
-        var expectedDirection = MapDirection.WEST;
-        var expectedPosition = new Vector2d(2, 2);
-
-        assertEquals(expectedDirection, animal.getDirection());
-        assertEquals(expectedPosition, animal.getPosition());
+        assertThrows(IllegalArgumentException.class, () -> OptionsParser.parse(array));
     }
 
     @Test
@@ -230,5 +218,12 @@ public class IntegrationTest {
 
         assertEquals(expectedDirection, animal.getDirection());
         assertEquals(expectedPosition, animal.getPosition());
+    }
+
+    @Test
+    void twoAnimalsOnOnePosition() {
+        var map = new RectangularMap(5, 5);
+        new Animal(map);
+        assertThrows(IllegalArgumentException.class, () -> new Animal(map));
     }
 }
