@@ -51,8 +51,8 @@ public abstract class AbstractWorldMap implements IWorldMap {
     @Override
     public void run(List<MoveDirection> directions) {
         var movableElements = elements.stream()
-                .filter(IMapElement::isMovable)
-                .map(el -> (IMovableElement) el)
+                .filter(IMovableElement.class::isInstance)
+                .map(IMovableElement.class::cast)
                 .collect(Collectors.toList());
 
         var iterator = movableElements.iterator();
