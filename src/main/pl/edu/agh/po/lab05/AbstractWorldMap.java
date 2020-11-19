@@ -80,22 +80,15 @@ public abstract class AbstractWorldMap implements IWorldMap {
     }
 
     @Override
-    public Optional<Object> objectAt(Vector2d position) {
+    public Optional<IMapElement> objectAt(Vector2d position) {
         var elementsAtPosition = getElementsAtPosition(position);
-
-        if (elementsAtPosition.isEmpty()) {
-            return Optional.empty();
-        }
-        else {
-            elementsAtPosition.sort(Comparator.comparing(IMapElement::priority));
-            return Optional.ofNullable(elementsAtPosition.get(0));
-        }
+        return elementsAtPosition.stream().min(Comparator.comparing(IMapElement::priority));
     }
 
     @Override
     public boolean canMoveTo(Vector2d position) {
         var object = objectAt(position);
-        return object.isEmpty() || !((IMapElement) object.get()).isBlocking();
+        return object.isEmpty() || !object.get().isBlocking();
     }
 
     @Override

@@ -54,7 +54,7 @@ class GrassFieldTest {
         map.run(directions);
 
         assertTrue(map.objectAt(new Vector2d(2, 2)).isEmpty() ||
-                map.objectAt(new Vector2d(2, 2)).orElse(new Object()) instanceof Grass);
+                map.objectAt(new Vector2d(2, 2)).get() instanceof Grass);
     }
 
     @Test
@@ -118,8 +118,8 @@ class GrassFieldTest {
     @Test
     void isOccupiedFalse() {
         var map = new GrassField(10);
-        assertFalse(!(map.objectAt(new Vector2d(2, 2)).orElse(new Object()) instanceof Grass)
-                && map.isOccupied(new Vector2d(2, 2)));
+        var position = new Vector2d(2, 2);
+        assertFalse(!(map.objectAt(position).orElse(new Grass(position)) instanceof Grass) && map.isOccupied(position));
     }
 
     @Test
@@ -133,7 +133,7 @@ class GrassFieldTest {
     void objectAtEmptyOrGrass() {
         var map = new RectangularMap(4, 4);
         assertTrue(map.objectAt(new Vector2d(2, 2)).isEmpty() ||
-                map.objectAt(new Vector2d(2, 2)).orElse(new Object()) instanceof Grass);
+                map.objectAt(new Vector2d(2, 2)).get() instanceof Grass);
     }
 
     @Test

@@ -17,7 +17,7 @@ public class IntegrationTest {
         map.run(directions);
 
         assertTrue(map.objectAt(new Vector2d(2, 2)).isEmpty() ||
-                map.objectAt(new Vector2d(2, 2)).orElse(new Object()) instanceof Grass);
+                map.objectAt(new Vector2d(2, 2)).get() instanceof Grass);
     }
 
     @Test
@@ -66,7 +66,7 @@ public class IntegrationTest {
         map.run(directions);
 
         assertTrue(map.objectAt(new Vector2d(2, 2)).isEmpty() ||
-                map.objectAt(new Vector2d(2, 2)).orElse(new Object()) instanceof Grass);
+                map.objectAt(new Vector2d(2, 2)).get() instanceof Grass);
     }
 
     @Test
