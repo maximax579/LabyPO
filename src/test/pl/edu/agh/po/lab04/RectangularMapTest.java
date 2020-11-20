@@ -285,4 +285,18 @@ class RectangularMapTest {
         assertEquals(expected, map.getMapAnimator().getAnimation());
     }
 
+    @Test
+    void getLowerLeft() {
+        var map = new RectangularMap(10, 5);
+        var expected = new Vector2d(0, 0);
+        assertEquals(expected, map.getLowerLeft());
+    }
+
+    @Test
+    void getUpperRight() {
+        var map = new RectangularMap(10, 5);
+        var expected = new Vector2d(9, 4);
+        assertEquals(expected, map.getUpperRight());
+    }
+
 }

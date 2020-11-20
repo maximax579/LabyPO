@@ -1,23 +1,20 @@
 package pl.edu.agh.po.lab05;
 
-import pl.edu.agh.po.lab02.MoveDirection;
 import pl.edu.agh.po.lab02.Vector2d;
-import pl.edu.agh.po.lab04.IWorldMap;
+import pl.edu.agh.po.lab07.IPositionChangedPublisher;
+import pl.edu.agh.po.lab07.MapBoundary;
 
 import java.util.Random;
 
-public class GrassField extends AbstractWorldMap implements IWorldMap {
+public class GrassField extends AbstractWorldMap {
 
     private final int numberOfGrasses;
+    private final MapBoundary boundary;
 
     public GrassField(int numberOfGrasses) {
         this.numberOfGrasses = numberOfGrasses;
-
-        this.lowerLeft = new Vector2d(0, 0);
-        this.upperRight = new Vector2d(0, 0);
-
+        this.boundary = new MapBoundary();
         addGrass();
-        this.mapAnimator.addFrame(this);
     }
 
     private void addGrass() {
@@ -36,20 +33,19 @@ public class GrassField extends AbstractWorldMap implements IWorldMap {
     @Override
     protected void addElementToMap(IMapElement element) {
         super.addElementToMap(element);
-        changeCorners(element.getPosition());
+        boundary.addMapElement(element);
+
+        if (element instanceof IPositionChangedPublisher publisher)
+            publisher.addObserver(boundary);
     }
 
     @Override
-    protected void moveElement(IMovableElement element, MoveDirection direction) {
-        super.moveElement(element, direction);
-        changeCorners(element.getPosition());
+    public Vector2d getLowerLeft() {
+        return boundary.getLowerLeft();
     }
 
-    protected void changeCorners(Vector2d position) {
-        if (position.upperRight(upperRight).follows(upperRight))
-            upperRight = position.upperRight(upperRight);
-
-        if (position.lowerLeft(lowerLeft).precedes(lowerLeft))
-            lowerLeft = position.lowerLeft(lowerLeft);
+    @Override
+    public Vector2d getUpperRight() {
+        return boundary.getUpperRight();
     }
 }

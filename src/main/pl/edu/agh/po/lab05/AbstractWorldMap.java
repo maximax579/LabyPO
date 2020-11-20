@@ -6,20 +6,18 @@ import pl.edu.agh.po.lab03.Animal;
 import pl.edu.agh.po.lab04.IWorldMap;
 import pl.edu.agh.po.lab04.MapAnimator;
 import pl.edu.agh.po.lab04.MapVisualiser;
+import pl.edu.agh.po.lab07.IPositionChangeObserver;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public abstract class AbstractWorldMap implements IWorldMap {
+public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
 
     private final List<IMapElement> elements;
     private final Map<Vector2d, List<IMapElement>> map;
 
     private final  MapVisualiser mapVisualiser;
     protected  MapAnimator mapAnimator;
-
-    protected Vector2d lowerLeft;
-    protected Vector2d upperRight;
 
     public AbstractWorldMap() {
         this.elements = new LinkedList<>();
@@ -28,20 +26,23 @@ public abstract class AbstractWorldMap implements IWorldMap {
         this.map = new HashMap<>();
     }
 
+    public abstract Vector2d getLowerLeft();
+    public abstract Vector2d getUpperRight();
+
     @Override
     public boolean place(Animal animal) {
         if (!canMoveTo(animal.getPosition()))
             throw new IllegalArgumentException("Cannot place animal on position " + animal.getPosition());
 
+        animal.addObserver(this);
         addElementToMap(animal);
-        mapAnimator.addFrame(this);
         return true;
     }
 
     protected void addElementToMap(IMapElement element) {
-        var elementsAtPosition = getElementsAtPosition(element.getPosition());
-        elementsAtPosition.add(element);
+        getElementsAtPosition(element.getPosition()).add(element);
         elements.add(element);
+        mapAnimator.addFrame(this);
     }
 
     private List<IMapElement> getElementsAtPosition(Vector2d position) {
@@ -63,15 +64,9 @@ public abstract class AbstractWorldMap implements IWorldMap {
             if (!iterator.hasNext())
                 iterator = movableElements.iterator();
 
-            moveElement(iterator.next(), direction);
+            iterator.next().move(direction);
             mapAnimator.addFrame(this);
         }
-    }
-
-    protected void moveElement(IMovableElement element, MoveDirection direction) {
-        getElementsAtPosition(element.getPosition()).remove(element);
-        element.move(direction);
-        getElementsAtPosition(element.getPosition()).add(element);
     }
 
     @Override
@@ -93,10 +88,16 @@ public abstract class AbstractWorldMap implements IWorldMap {
 
     @Override
     public String toString() {
-        return mapVisualiser.draw(lowerLeft, upperRight);
+        return mapVisualiser.draw(getLowerLeft(), getUpperRight());
     }
 
     public MapAnimator getMapAnimator() {
         return mapAnimator;
+    }
+
+    @Override
+    public void positionChanged(IMapElement movedElement, Vector2d oldPosition, Vector2d newPosition) {
+        getElementsAtPosition(oldPosition).remove(movedElement);
+        getElementsAtPosition(newPosition).add(movedElement);
     }
 }

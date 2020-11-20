@@ -142,4 +142,55 @@ class GrassFieldTest {
         var animal = new Animal(map);
         assertEquals(animal, map.objectAt(new Vector2d(2, 2)).orElseThrow());
     }
+
+    @Test
+    void getLowerLeftWithoutAnimals() {
+        var map = new GrassField(0);
+        var expected = new Vector2d(0, 0);
+        assertEquals(expected, map.getLowerLeft());
+    }
+
+    @Test
+    void getUpperRightWithoutAnimals() {
+        var map = new GrassField(0);
+        var expected = new Vector2d(0, 0);
+        assertEquals(expected, map.getUpperRight());
+    }
+
+    @Test
+    void getLowerLeftWithOneAnimal() {
+        var map = new GrassField(0);
+        new Animal(map);
+        var expected = new Vector2d(2, 2);
+        assertEquals(expected, map.getLowerLeft());
+    }
+
+    @Test
+    void getUpperRightWithOneAnimal() {
+        var map = new GrassField(0);
+        new Animal(map);
+        var expected = new Vector2d(2, 2);
+        assertEquals(expected, map.getUpperRight());
+    }
+
+    @Test
+    void getLowerLeftWithTwoAnimals() {
+        var map = new GrassField(0);
+        new Animal(map);
+        new Animal(map, new Vector2d(3, 3));
+
+        var expected = new Vector2d(2, 2);
+        assertEquals(expected, map.getLowerLeft());
+    }
+
+    @Test
+    void getUpperRightWithTwoAnimals() {
+        var map = new GrassField(0);
+        new Animal(map);
+        new Animal(map, new Vector2d(3, 3));
+
+        var expected = new Vector2d(3, 3);
+        assertEquals(expected, map.getUpperRight());
+    }
+
 }

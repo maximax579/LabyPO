@@ -5,6 +5,7 @@ import pl.edu.agh.po.lab02.MapDirection;
 import pl.edu.agh.po.lab02.MoveDirection;
 import pl.edu.agh.po.lab02.Vector2d;
 import pl.edu.agh.po.lab04.RectangularMap;
+import pl.edu.agh.po.lab07.MapBoundary;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -273,4 +274,49 @@ class AnimalTest {
         assertEquals(expectedDirection, animal.getDirection());
         assertEquals(expectedPosition, animal.getPosition());
     }
+
+    @Test
+    void testAddObserver() {
+        var mapBoundary = new MapBoundary();
+        var map = new RectangularMap(4, 4);
+        var animal1 = new Animal(map);
+        var animal2 = new Animal(map, new Vector2d(1, 1));
+
+        mapBoundary.addMapElement(animal1);
+        mapBoundary.addMapElement(animal2);
+        animal1.addObserver(mapBoundary);
+        animal2.addObserver(mapBoundary);
+        animal2.move(MoveDirection.FORWARD);
+        animal2.move(MoveDirection.FORWARD);
+
+        var expectedLowerLeft = new Vector2d(1, 2);
+        var expectedUpperRight = new Vector2d(2, 3);
+
+        assertEquals(expectedLowerLeft, mapBoundary.getLowerLeft());
+        assertEquals(expectedUpperRight, mapBoundary.getUpperRight());
+    }
+
+    @Test
+    void testRemoveObserver() {
+        var mapBoundary = new MapBoundary();
+        var map = new RectangularMap(4, 4);
+        var animal1 = new Animal(map);
+        var animal2 = new Animal(map, new Vector2d(1, 1));
+
+        mapBoundary.addMapElement(animal1);
+        mapBoundary.addMapElement(animal2);
+        animal1.addObserver(mapBoundary);
+        animal2.addObserver(mapBoundary);
+        animal1.removeObserver(mapBoundary);
+        animal2.removeObserver(mapBoundary);
+        animal2.move(MoveDirection.FORWARD);
+        animal2.move(MoveDirection.FORWARD);
+
+        var expectedLowerLeft = new Vector2d(1, 3);
+        var expectedUpperRight = new Vector2d(2, 2);
+
+        assertEquals(expectedLowerLeft, mapBoundary.getLowerLeft());
+        assertEquals(expectedUpperRight, mapBoundary.getUpperRight());
+    }
+
 }

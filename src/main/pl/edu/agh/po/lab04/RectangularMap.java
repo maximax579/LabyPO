@@ -3,7 +3,10 @@ package pl.edu.agh.po.lab04;
 import pl.edu.agh.po.lab02.Vector2d;
 import pl.edu.agh.po.lab05.AbstractWorldMap;
 
-public class RectangularMap extends AbstractWorldMap implements IWorldMap {
+public class RectangularMap extends AbstractWorldMap {
+
+    private final Vector2d lowerLeft;
+    private final Vector2d upperRight;
 
     public RectangularMap(int width, int height) {
         if (width < 0 || height < 0)
@@ -21,5 +24,15 @@ public class RectangularMap extends AbstractWorldMap implements IWorldMap {
             return false;
 
         return super.canMoveTo(position);
+    }
+
+    @Override
+    public Vector2d getLowerLeft() {
+        return lowerLeft;
+    }
+
+    @Override
+    public Vector2d getUpperRight() {
+        return upperRight;
     }
 }
